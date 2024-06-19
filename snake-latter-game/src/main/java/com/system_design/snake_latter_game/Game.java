@@ -23,16 +23,14 @@ public class Game {
 		Random random = new Random();
 		while (players.size() > 1) {
 			Player player = players.get((currentPlayer) % numberOfPlayers);
-			System.out.println(player.getName() + " is rolling the dice");
 			int dice = random.nextInt(6) + 1;
-			System.out.println("Dice value is : " + dice);
+			System.out.println(player.getName() + " is rolled the dice to " + dice);
 			makeMove(player, dice);
 			displayBoard(players);
 			if (isPlayerWin(player)) {
-				System.out.println("\nWINNER IS " + player.getName());
+				System.out.println(player.getName() +" is winner and moved out from game");
 				results.add(player);
 				players.remove(currentPlayer % numberOfPlayers);
-				currentPlayer--;
 				numberOfPlayers--;
 			}
 			currentPlayer++;
@@ -52,7 +50,7 @@ public class Game {
 		System.out.println("*** RESULTS ***");
 		for (int i = 0; i < results.size(); i++) {
 			Player player = results.get(i);
-			System.out.println("Rank " + (i + 1) + ": " + player.getName() + "\t" + player.getPosition());
+			System.out.println("Rank " + (i + 1) + ": " + player.getName());
 		}
 		System.out.println();
 		System.out.println(results.get(results.size() - 1).getName() + " IS LOOOOOSER........!! :(");
@@ -76,16 +74,16 @@ public class Game {
 		int initialPosition = player.getPosition();
 		int newPosition = player.getPosition() + dice;
 		if (newPosition > 100) {
-			System.out.println("Hmmm...!" + player.getName() + " You don't enough grids to move");
+			System.out.println("Hmmm...!" + player.getName() + " exceded the board");
 			return;
 		}
-		System.out.println(player.getName() + " You moved from " + initialPosition + " to " + newPosition);
+		System.out.println(player.getName() + " moved from " + initialPosition + " to " + newPosition);
 		if (board.getSnakes().containsKey(newPosition)) {
 			newPosition = board.getSnakes().get(newPosition);
-			System.out.println("OOPS..! Snake catched you and slipped to " + newPosition + " :(");
+			System.out.println("OOPS..! Snake catched "+player.getName()+" and slipped to " + newPosition + " :(");
 		} else if (board.getLadders().containsKey(newPosition)) {
 			newPosition = board.getLadders().get(newPosition);
-			System.out.println("HOHO..! You got ladder and you climbs to " + newPosition + " :)");
+			System.out.println("HOHO..! "+player.getName()+" got ladder and you climbs to " + newPosition + " :)");
 		}
 		player.setPosition(newPosition);
 	}
